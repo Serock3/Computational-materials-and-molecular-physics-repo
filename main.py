@@ -10,4 +10,5 @@ def normalize(asd):
 
 C = normalize(C)
 
+print("hej")
 # %%

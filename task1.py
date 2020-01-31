@@ -34,14 +34,14 @@ for p in range(4):
 # Inital values
 C = [1, 1, 1, 1]
 
-
+#Normalizing C according to eq. 4.19 in Thijssen
 def normalize(C):
     return C/np.sqrt(np.matmul(C, np.matmul(S, C)))
 
 
 F = np.zeros((4, 4))
 
-
+#Evaluating eq. 4.21 in Thijssen
 def getEg(C, h, Q):
     def con(Q, C):
         return np.tensordot(Q, C, axes=([0], [0]))
@@ -63,18 +63,14 @@ for i in range(MaxIters):
         for q in range(4):
             F[p, q] = h[p, q]+np.matmul(C, np.matmul(Q[p, :, q, :], C))
 
-    # Sovle eigenvalue problem
+    # Solve eigenvalue problem
     (eps, w) = scipy.linalg.eig(F, S)
 
     if any(eps.imag != 0):
         raise Exception('complex eig')
 
-    #w = w[:,E.imag==0].real
-    #E = E[E.imag==0].real
-
     # Get best C
-    C = w[:, np.argmin(eps.real)]  # np.argmin(E)]
-    #E = E[np.argmin(E.real)].real
+    C = w[:, np.argmin(eps.real)]
 
 C = normalize(C)
 print("Eg = ", getEg(C, h, Q))

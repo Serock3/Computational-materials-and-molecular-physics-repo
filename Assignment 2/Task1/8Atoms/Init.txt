@@ -11,4 +11,4 @@
 module purge
 module load intel/2019a GPAW ASE
 
-mpirun -np 1 gpaw-python initialize.py 8
+mpirun -np 1 gpaw-python initialization.py 8

@@ -8,6 +8,7 @@ from ase.io import read, write
 
 a=Atoms(read("guess.xyz", format='xyz'))
 
+
 # Define the calculator
 calc = GPAW(nbands=10,
             h=0.25,
@@ -18,6 +19,9 @@ calc = GPAW(nbands=10,
             basis='dzp')
 
 a.set_calculator(calc)
+print("-a.get_potential_energy() ",-a.get_potential_energy())
+write('guess.xyz', a)
+#%%
 #print('Relaxing starting candidate {0}'.format(a.info['confid']))
 print("Relax start")
 dyn = GPMin(a, trajectory='relax_ref.traj', logfile='relax_ref.log')

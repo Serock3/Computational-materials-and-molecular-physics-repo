@@ -6,7 +6,7 @@
  |___|_|             
 
 User:   erik@HP-OMEN
-Date:   Wed Feb  5 14:22:23 2020
+Date:   Wed Feb  5 14:38:40 2020
 Arch:   x86_64
 Pid:    2119
 Python: 3.7.5
@@ -29,5 +29,5 @@ Input parameters:
                 width: 0.05}
   setups: {Na: 1}
 
-Memory usage: 759.13 MiB
-Date: Wed Feb  5 14:23:11 2020
+Memory usage: 768.23 MiB
+Date: Wed Feb  5 14:45:22 2020

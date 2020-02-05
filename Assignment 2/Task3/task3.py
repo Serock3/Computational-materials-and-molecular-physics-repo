@@ -8,8 +8,7 @@ from ase import Atoms, Atom
 from gpaw import GPAW, FermiDirac
 from ase.io import read
 
-db = connect('guess.db')
-da = DataConnection('guess.db')
+
 
 a=Atoms(read("guess.xyz", format='xyz'))
 

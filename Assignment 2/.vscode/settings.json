@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/usr/bin/python3",
+    "python.pythonPath": "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/bin/python",
     "liveshare.allowGuestDebugControl": true,
     "liveshare.allowGuestTaskControl": true
 }

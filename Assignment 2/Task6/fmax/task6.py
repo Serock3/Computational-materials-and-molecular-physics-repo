@@ -15,7 +15,8 @@ calc = GPAW(nbands=10,
             txt='out.txt',
             occupations=FermiDirac(0.05),
             setups={'Na': '1'},
-            mode='lcao')
+            mode='lcao',
+            basis='dzp')
 
 atomsBest.set_calculator(calc)
 atomsSecond.set_calculator(calc)
@@ -33,3 +34,5 @@ print("Second post -a.get_potential_energy() ",-atomsSecond.get_potential_energy
 print("fmax done")
 # write('Best_post.xyz', atomsBest)
 # write('Second_post.xyz', atomsSecond)
+
+# %%

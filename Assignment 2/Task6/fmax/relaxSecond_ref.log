@@ -22,3 +22,7 @@ GPMin:    1 21:01:01       -4.188925*       0.0126
 *Force-consistent energies used in optimization.
 GPMin:    0 21:11:30       -4.186322*       0.0412
 GPMin:    1 21:11:44       -4.188925*       0.0126
+       Step     Time          Energy         fmax
+GPMin:    0 12:21:04       -4.186320        0.0412
+       Step     Time          Energy         fmax
+GPMin:    0 12:22:45       -4.890089        0.0056

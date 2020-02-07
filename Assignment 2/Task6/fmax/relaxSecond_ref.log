@@ -26,3 +26,16 @@ GPMin:    1 21:11:44       -4.188925*       0.0126
 GPMin:    0 12:21:04       -4.186320        0.0412
        Step     Time          Energy         fmax
 GPMin:    0 12:22:45       -4.890089        0.0056
+       Step     Time          Energy         fmax
+GPMin:    0 12:38:47       -4.890089        0.0056
+       Step     Time          Energy         fmax
+GPMin:    0 12:46:04       -4.376260        0.1101
+GPMin:    1 12:46:42       -4.401272        0.0098
+       Step     Time          Energy         fmax
+GPMin:    0 12:51:32       -3.941808        0.1796
+GPMin:    1 12:51:52       -4.002591        0.0746
+GPMin:    2 12:52:11       -4.008555        0.0152
+       Step     Time          Energy         fmax
+GPMin:    0 13:18:27       -4.890089        0.0056
+       Step     Time          Energy         fmax
+GPMin:    0 13:22:45       -4.890089        0.0056

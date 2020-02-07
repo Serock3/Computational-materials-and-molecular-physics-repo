@@ -37,3 +37,5 @@ print("PBE done")
 # da.add_relaxed_step(a)
 # write('Best_post.xyz', atomsBest)
 # write('Second_post.xyz', atomsSecond)
+
+# %%

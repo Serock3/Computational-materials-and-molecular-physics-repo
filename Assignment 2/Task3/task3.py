@@ -1,4 +1,6 @@
 #%%
+#Relaxing cluster once
+
 from ase.db import connect
 from ase.ga.data import DataConnection
 from ase.optimize import GPMin
@@ -33,4 +35,4 @@ print("-a.get_potential_energy() ",-a.get_potential_energy())
 # da.add_relaxed_step(a)
 write('post.xyz', a)
 # %%
-1+1
+

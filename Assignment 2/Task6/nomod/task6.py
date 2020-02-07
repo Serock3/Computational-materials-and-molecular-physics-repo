@@ -30,7 +30,7 @@ print("Second pre -a.get_potential_energy() ",-atomsSecond.get_potential_energy(
 # write('Best_pre.xyz', atomsBest)
 # write('Second_pre.xyz', atomsSecond)
 # write('guess.xyz', a)
-#%%
+
 #print('Relaxing starting candidate {0}'.format(a.info['confid']))
 # print("Relax start")
 dyn = GPMin(atomsBest, trajectory='relaxBest_ref.traj', logfile='relaxBest_ref.log')
@@ -38,9 +38,13 @@ dyn.run(fmax=0.02, steps=100)
 dyn2 = GPMin(atomsSecond, trajectory='relaxSecond_ref.traj', logfile='relaxSecond_ref.log')
 dyn2.run(fmax=0.02, steps=100)
 print("Best post -a.get_potential_energy() ",-atomsBest.get_potential_energy())
+calc.write('WFbest.gpw', mode='all')
 print("Second post -a.get_potential_energy() ",-atomsSecond.get_potential_energy())
+calc.write('WFsecond.gpw', mode='all')
 #a.info['key_value_pairs']['raw_score'] = -a.get_potential_energy()
 print("nomod done")
 # da.add_relaxed_step(a)
 # write('Best_post.xyz', atomsBest)
 # write('Second_post.xyz', atomsSecond)
+
+# %%

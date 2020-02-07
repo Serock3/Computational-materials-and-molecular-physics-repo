@@ -35,3 +35,5 @@ print("Second post -a.get_potential_energy() ",-atomsSecond.get_potential_energy
 print("revPBE done")
 # write('Best_post.xyz', atomsBest)
 # write('Second_post.xyz', atomsSecond)
+
+# %%

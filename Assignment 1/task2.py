@@ -129,8 +129,7 @@ plt.plot(r, 4*np.pi*r**2 *
          np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2)
 plt.savefig('task1.pdf')
 
-task1density = 4*np.pi*r**2 *
-         np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2
+task1density = 4*np.pi*r**2 * np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2
 task1r = r
 #%% task 2
 
@@ -201,10 +200,10 @@ for i in range(conIters):
     if np.abs(Econv[i]-Econv[i-1])<1e-5/27.21:
         print("Within convergence criteria at rmax",Rmaxlist[i]," and i ",i)
     
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(6.15, 4.6))
 plt.plot(Rmaxlist[:i],Econv[:i])
 plt.xlabel(r"$R_{max}$ [$a_0$]", fontsize=18)
-plt.ylabel("Energy [eV]", fontsize=18)
+plt.ylabel(r"Energy [eV]", fontsize=18)
 plt.savefig('task4_rmax.pdf')
 
 ns = solve(ns,MaxIters,N,Rmaxlist[i],Z)[0]
@@ -263,22 +262,31 @@ task4r = r
 plt.figure(figsize=(8, 6))
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
 plt.ylabel("Radial PDF", fontsize=18)
-plt.plot(task1r,task1density)
-plt.plot(task3r,task3density)
-plt.plot(task4r,task4density)
+plt.plot(task1r,task1density, label ="Helium Simple Hartree Fock")
+plt.plot(task3r,task3density, label ="Hydrogen Kohn Sham")
+plt.plot(task4r,task4density, label ="Helium Hartree Fock")
+plt.legend()
 #%% Task 5
 Z= 2
 N=1000          #Number of grid points
-Rmax = 6        # atomic
+Rmax = 7        # atomic
 h = Rmax/N      #Stepsize
 r = np.linspace(h,Rmax,N)
 
 ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
 
 #Exchange potential
-epsx= - 3/4*(3*Z*ns/np.pi)**(1/3)
+
+def getepsx(n,Z):
+    return -3/4*(3*Z*ns/np.pi)**(1/3)
+
+def getVx(n,Z):
+    return -1*(3*Z*ns/np.pi)**(1/3)
+
+
+epsx= getepsx(Z*ns,Z)
 #ndepsx= 1/3*epsx
-Vx = -1*(3*Z*ns/np.pi)**(1/3)  #epsx +ndepsx
+Vx = getVx(Z*ns,Z)
 
 MaxIters = 30           #Max number of iterations
 E = np.zeros(MaxIters)
@@ -286,13 +294,13 @@ Test = np.zeros(MaxIters)
 
 #Solve the self consistency problem
 for i in range(MaxIters):
-    VH = 2*getVH(ns,N,Rmax)
+    VH = Z*getVH(ns,N,Rmax)
     (psi,eps) = getpsi(VH+Vx,N,Rmax,Z)
     ns = np.abs(psi)**2
     
-    epsx= - 3/4*(3*Z*ns/np.pi)**(1/3)
-    Vx = -1*(3*Z*ns/np.pi)**(1/3)
-    Test[i]=np.trapz(ns,r)
+    epsx= getepsx(Z*ns,Z)
+    Vx = getVx(Z*ns,Z)
+    
     E[i] =getE(eps,VH,Vx,epsx,ns,Z)
     if np.abs(E[i]-E[i-1])<1e-5/27.21:
         break
@@ -308,7 +316,7 @@ plt.plot(r,4*np.pi*r**2*ns)
 plt.savefig('task5.pdf')
 # %% Task 6
 Z= 2
-N=500           #Number of grid points
+N=1000           #Number of grid points
 Rmax = 7        # atomic
 h = Rmax/N      #Stepsize
 r = np.linspace(h,Rmax,N)
@@ -335,27 +343,22 @@ def getepsc(n,Z):
 def getepsx(n,Z):
     return -3/4*(3*Z*ns/np.pi)**(1/3)
 
-def get Vx(n,Z):
+def getVx(n,Z):
     return -1*(3*Z*ns/np.pi)**(1/3)
 
-def get Vc(n,Z):
+def getVc(n,Z):
     rs=getrs(n,Z)
     Vc=(rs>=1)*getepsc(n,Z)*(1+7/6*beta1*np.sqrt(rs)+beta2*rs)/(1+beta1*np.sqrt(rs)+beta2*rs)
-    Vc+=(rs<1)*(A*np.log(rs)+B-A/3+2/3*C*rs*np.log(rs)+(2*D))
-    return 
+    Vc+=(rs<1)*(A*np.log(rs)+B-A/3+2/3*C*rs*np.log(rs)+(2*D-C)*rs/3)
+    return Vc
 
-ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
-ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
-
-epsc=getepsc(2*ns,Z)
-epsxc = epsx + epsc
-
-Vx = epsx + ndepsx
-Vc = epsc + ndepsc
-Vxc = Vx + Vc 
+#ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
+#ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
 
 
+epsxc = getepsx(Z*ns,Z)+getepsc(Z*ns,Z)
 
+Vxc = getVx(Z*ns,Z) + getVc(Z*ns,Z) 
 
 
 MaxIters = 30           #Max number of iterations
@@ -367,20 +370,9 @@ for i in range(MaxIters):
     (psi,eps) = getpsi(VH+Vxc,N,Rmax,Z)
     ns = np.abs(psi)**2
     
-    rs=(3/(4*np.pi*Z*ns))**(1/3)
-    #Exchange and correlation potential
-    epsx=- 3/4*(3*Z*ns/np.pi)**(1/3)
-    ndepsx= 1/3*epsx
-    ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
-    ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
-
-    epsc=(rs>=1)*gamma/(1+beta1*np.sqrt(rs)+beta2*rs)
-    epsc=epsc+(rs<1)*(A*np.log(rs)+B+C*rs*np.log(rs)+D*rs)
-    epsxc = epsx + epsc
-
-    Vx = epsx + ndepsx
-    Vc = epsc + ndepsc
-    Vxc = Vx + Vc 
+    #Update eps and V with new ns
+    epsxc = getepsx(Z*ns,Z) + getepsc(Z*ns,Z)
+    Vxc = getVx(Z*ns,Z) + getVc(Z*ns,Z)
 
     E[i] =getE(eps,VH,Vxc,epsxc,ns,Z)
     if np.abs(E[i]-E[i-1])<1e-5/27.21:

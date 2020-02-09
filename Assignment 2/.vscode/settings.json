@@ -1,5 +1,10 @@
 {
     "python.pythonPath": "/home/sebastian/miniconda3/bin/python",
     "liveshare.allowGuestDebugControl": true,
-    "liveshare.allowGuestTaskControl": true
+    "liveshare.allowGuestTaskControl": true,
+    "python.autoComplete.extraPaths": [
+        "~/ase",
+        "~/ase/tools",
+        "~"
+    ],
 }

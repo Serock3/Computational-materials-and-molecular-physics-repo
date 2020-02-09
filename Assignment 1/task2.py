@@ -33,7 +33,105 @@ def getpsi(V,N,Rmax,Z):
 def getE(eps,VH,Vxc,epsxc,ns,Z):
     return Z*eps-Z*4*np.pi*np.trapz((VH*ns/2+Vxc*ns-epsxc*ns)*r**2,r)
 
+def solve(ns,MaxIters,N,Rmax,Z):
+    #Solve the self consistency problem
+    for i in range(MaxIters):
+        VH = getVH(ns,N,Rmax)
+        (psi,eps) = getpsi(VH,N,Rmax,Z)
+        ns = np.abs(psi)**2
+        E[i] = getE(eps,VH,0,0,ns,Z)
+        if np.abs(E[i]-E[i-1])<1e-5/27.21:
+            break
+    return (ns, E)
 
+#%% Task 1
+# Given alpha values
+a = [0.297104, 1.236745, 5.749982, 38.216677]
+
+# Init of matrices from Thijssen 4.3.2
+# h matrix
+h = np.zeros((4, 4))
+for p in range(4):
+    for q in range(4):
+        h[p, q] = 4*np.pi/(a[p]+a[q])*(3/4*a[q] *
+                                       (1-a[q]/(a[p]+a[q]))*np.sqrt(np.pi/(a[p]+a[q]))-1)
+
+# Q matrix (given by eq 4.17 in Thijssen)
+Q = np.zeros((4, 4, 4, 4))
+for p in range(4):
+    for q in range(4):
+        for r in range(4):
+            for s in range(4):
+                Q[p, r, q, s] = 2*np.pi**(5/2)/((a[p]+a[q])
+                                                * (a[r]+a[s])*np.sqrt(a[p]+a[q]+a[r]+a[s]))
+
+# S matrix
+S = np.zeros((4, 4))
+for p in range(4):
+    for q in range(4):
+        S[p, q] = (np.pi/(a[p]+a[q]))**(3/2)
+
+# Inital values
+C = [1, 1, 1, 1]
+
+#Normalizing C according to eq. 4.19 in Thijssen
+def normalize(C):
+    return C/np.sqrt(np.matmul(C, np.matmul(S, C)))
+
+
+F = np.zeros((4, 4))
+
+#Evaluating eq. 4.21 in Thijssen
+def getEg(C, h, Q):
+    def con(Q, C):
+        return np.tensordot(Q, C, axes=([0], [0]))
+    return 2*np.matmul(C, np.matmul(h, C))+con(con(con(con(Q, C), C), C), C)
+
+
+MaxIters = 15
+E = np.zeros(MaxIters)
+
+for i in range(MaxIters):
+    C = normalize(C)
+    E[i] = getEg(C, h, Q)
+    print(E[i])
+
+    if np.abs(E[i]-E[i-1]) < 1e-5/27.21:
+        break
+    # Set F(C)
+    for p in range(4):
+        for q in range(4):
+            F[p, q] = h[p, q]+np.matmul(C, np.matmul(Q[p, :, q, :], C))
+
+    # Solve eigenvalue problem
+    (eps, w) = scipy.linalg.eig(F, S)
+
+    if any(eps.imag != 0):
+        raise Exception('complex eig')
+
+    # Get best C
+    C = w[:, np.argmin(eps.real)]
+
+C = normalize(C)
+print("Eg = ", getEg(C, h, Q))
+print("C= ", C)
+
+# Print the radial PDF
+Rmax = 7  # atomic
+N = 1000
+h = Rmax/N
+r = np.linspace(h, Rmax, N)
+
+plt.figure(figsize=(8, 6))
+plt.xlabel(r"Distance [$a_0$]", fontsize=18)
+plt.ylabel("Radial PDF", fontsize=18)
+plt.plot(r, 4*np.pi*r**2 *
+         np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2)
+plt.savefig('task1.pdf')
+
+task1density = 4*np.pi*r**2 *
+         np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2
+task1r = r
 #%% task 2
 
 Rmax = 10 # atomic
@@ -74,34 +172,100 @@ plt.xlabel(r"Distance [$a_0$]", fontsize=18)
 plt.ylabel("Radial PDF", fontsize=18)
 plt.plot(r,4*np.pi*r**2*ns)
 plt.savefig('task3.pdf')
-#%% Task 4
+
+task3density = 4*np.pi*r**2*ns
+task3r = r
+#%% Task 4 Rmax conv
 Z= 2
 N=800               #Number of grid points
 Rmax = 6            # atomic
-h = Rmax/N          #Stepsize
+h = 0.006          #Stepsize
 r = np.linspace(h,Rmax,N)
 ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
 
 MaxIters = 15           #Max number of iterations
 E = np.zeros(MaxIters)  
 
-#Solve the self consistency problem
-for i in range(MaxIters):
-    VH = getVH(ns,N,Rmax)
-    (psi,eps) = getpsi(VH,N,Rmax,Z)
-    ns = np.abs(psi)**2
-    E[i] =getE(eps,VH,0,0,ns,Z)
-    if np.abs(E[i]-E[i-1])<1e-5/27.21:
-        break
-print("eps = ", eps)
-print("E = ", E[i])
+conIters = 8
+Rmaxlist = np.linspace(3,10,conIters)
+Econv = np.zeros(conIters)
 
-#Plot
+#Find best Rmax
+for i in range(conIters):
+    N = int(np.round(Rmaxlist[i]/h))
+    r = np.linspace(h,Rmaxlist[i],N)
+    ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
+    E = solve(ns,MaxIters,N,Rmaxlist[i],Z)[1] # Solves the self consistency problem
+    Econv[i] = E[E!=0][-1]
+    print("E = ", Econv[i], "at rmax", Rmaxlist[i]," and i ",i)
+    if np.abs(Econv[i]-Econv[i-1])<1e-5/27.21:
+        print("Within convergence criteria at rmax",Rmaxlist[i]," and i ",i)
+    
+plt.figure(figsize=(8, 6))
+plt.plot(Rmaxlist[:i],Econv[:i])
+plt.xlabel(r"$R_{max}$ [$a_0$]", fontsize=18)
+plt.ylabel("Energy [eV]", fontsize=18)
+plt.savefig('task4_rmax.pdf')
+
+ns = solve(ns,MaxIters,N,Rmaxlist[i],Z)[0]
+#Plot ns
 plt.figure(figsize=(8, 6))
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
 plt.ylabel("Radial PDF", fontsize=18)
 plt.plot(r,4*np.pi*r**2*ns)
-plt.savefig('task4.pdf')
+# plt.savefig('task4.pdf')
+
+#Plot VH
+plt.figure(figsize=(8, 6))
+plt.xlabel(r"Distance [$a_0$]", fontsize=18)
+plt.ylabel("VH", fontsize=18)
+plt.plot(r,getVH(ns,N,Rmaxlist[i]))
+# plt.savefig('task4.pdf')
+#%% Task 4 h conv
+Rmax = 7            # atomic
+h = 0.006          #Stepsize
+MaxIters = 15           #Max number of iterations
+E = np.zeros(MaxIters)  
+
+conIters = 9
+hlist = np.logspace(np.log10(0.03),np.log10(0.003),conIters)
+Econv = np.zeros(conIters)
+
+#Find best Rmax
+for i in range(conIters):
+    N = int(np.round(Rmax/hlist[i]))
+    r = np.linspace(hlist[i],Rmax,N)
+    ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
+    E = solve(ns,MaxIters,N,Rmax,Z)[1] # Solves the self consistency problem
+    Econv[i] = E[E!=0][-1]
+    print("E = ", Econv[i], "at h", hlist[i]," and i ",i)
+    if np.abs(Econv[i]-Econv[i-1])<1e-5/27.21:
+        print("Within convergence criteria at h = ",hlist[i]," and i = ",i)
+    
+plt.figure(figsize=(8, 6))
+plt.plot(hlist[:i],Econv[:i])
+plt.xlabel(r"h [$a_0$]", fontsize=18)
+plt.ylabel("Energy [eV]", fontsize=18)
+plt.xlim(0.03,0)
+plt.savefig('task4_h.pdf')
+
+ns = solve(ns,MaxIters,N,Rmax,Z)[0]
+#Plot ns
+plt.figure(figsize=(8, 6))
+plt.xlabel(r"Distance [$a_0$]", fontsize=18)
+plt.ylabel("Radial PDF", fontsize=18)
+plt.plot(r,4*np.pi*r**2*ns)
+# plt.savefig('task4.pdf')
+task4density = 4*np.pi*r**2*ns
+task4r = r
+
+#%% plot together
+plt.figure(figsize=(8, 6))
+plt.xlabel(r"Distance [$a_0$]", fontsize=18)
+plt.ylabel("Radial PDF", fontsize=18)
+plt.plot(task1r,task1density)
+plt.plot(task3r,task3density)
+plt.plot(task4r,task4density)
 #%% Task 5
 Z= 2
 N=1000          #Number of grid points
@@ -112,18 +276,23 @@ r = np.linspace(h,Rmax,N)
 ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
 
 #Exchange potential
-epsx= - 3/4*(3*ns/np.pi)**(1/3)
-ndepsx= 1/3*epsx
-Vx = epsx + ndepsx
+epsx= - 3/4*(3*Z*ns/np.pi)**(1/3)
+#ndepsx= 1/3*epsx
+Vx = -1*(3*Z*ns/np.pi)**(1/3)  #epsx +ndepsx
 
 MaxIters = 30           #Max number of iterations
 E = np.zeros(MaxIters)
+Test = np.zeros(MaxIters)
 
 #Solve the self consistency problem
 for i in range(MaxIters):
     VH = 2*getVH(ns,N,Rmax)
     (psi,eps) = getpsi(VH+Vx,N,Rmax,Z)
     ns = np.abs(psi)**2
+    
+    epsx= - 3/4*(3*Z*ns/np.pi)**(1/3)
+    Vx = -1*(3*Z*ns/np.pi)**(1/3)
+    Test[i]=np.trapz(ns,r)
     E[i] =getE(eps,VH,Vx,epsx,ns,Z)
     if np.abs(E[i]-E[i-1])<1e-5/27.21:
         break
@@ -154,21 +323,39 @@ gamma = -0.1423
 beta1 = 1.0529
 beta2 = 0.3334
 
-rs=(3/(4*np.pi*ns))**(1/3)
+def getrs(n,Z):
+    return (3/(4*np.pi*Z*ns))**(1/3)
 
-#Exchange and correlation potential
-epsx=- 3/4*(3*ns/np.pi)**(1/3)
-ndepsx= 1/3*epsx
-ndepsc=(rs>=1)*ns*(-(gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
-ndepsc=ndepsc+(rs<1)*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
+def getepsc(n,Z):
+    rs=getrs(n,Z)
+    epsc=(rs>=1)*gamma/(1+beta1*np.sqrt(rs)+beta2*rs)
+    epsc=epsc+(rs<1)*(A*np.log(rs)+B+C*rs*np.log(rs)+D*rs)
+    return epsc
 
-epsc=(rs>=1)*gamma/(1+beta1*np.sqrt(rs)+beta2*rs)
-epsc=epsc+(rs<1)*(A*np.log(rs)+B+C*rs*np.log(rs)+D*rs)
+def getepsx(n,Z):
+    return -3/4*(3*Z*ns/np.pi)**(1/3)
+
+def get Vx(n,Z):
+    return -1*(3*Z*ns/np.pi)**(1/3)
+
+def get Vc(n,Z):
+    rs=getrs(n,Z)
+    Vc=(rs>=1)*getepsc(n,Z)*(1+7/6*beta1*np.sqrt(rs)+beta2*rs)/(1+beta1*np.sqrt(rs)+beta2*rs)
+    Vc+=(rs<1)*(A*np.log(rs)+B-A/3+2/3*C*rs*np.log(rs)+(2*D))
+    return 
+
+ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
+ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
+
+epsc=getepsc(2*ns,Z)
 epsxc = epsx + epsc
 
 Vx = epsx + ndepsx
 Vc = epsc + ndepsc
 Vxc = Vx + Vc 
+
+
+
 
 
 MaxIters = 30           #Max number of iterations
@@ -179,6 +366,22 @@ for i in range(MaxIters):
     VH = 2*getVH(ns,N,Rmax)
     (psi,eps) = getpsi(VH+Vxc,N,Rmax,Z)
     ns = np.abs(psi)**2
+    
+    rs=(3/(4*np.pi*Z*ns))**(1/3)
+    #Exchange and correlation potential
+    epsx=- 3/4*(3*Z*ns/np.pi)**(1/3)
+    ndepsx= 1/3*epsx
+    ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
+    ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
+
+    epsc=(rs>=1)*gamma/(1+beta1*np.sqrt(rs)+beta2*rs)
+    epsc=epsc+(rs<1)*(A*np.log(rs)+B+C*rs*np.log(rs)+D*rs)
+    epsxc = epsx + epsc
+
+    Vx = epsx + ndepsx
+    Vc = epsc + ndepsc
+    Vxc = Vx + Vc 
+
     E[i] =getE(eps,VH,Vxc,epsxc,ns,Z)
     if np.abs(E[i]-E[i-1])<1e-5/27.21:
         break

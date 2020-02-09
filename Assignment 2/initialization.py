@@ -2,7 +2,8 @@
 import numpy as np
 from numpy import random
 from ase import Atoms, Atom
-
+import matplotlib
+matplotlib.use('Agg')
 
 def get_random_direction():
     """ Returns a random vector with norm 1. """

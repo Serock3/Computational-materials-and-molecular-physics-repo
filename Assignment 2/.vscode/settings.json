@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/sebastian/miniconda3/bin/python",
+    "python.pythonPath": "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/bin/python",
     "liveshare.allowGuestDebugControl": true,
     "liveshare.allowGuestTaskControl": true,
     "python.autoComplete.extraPaths": [

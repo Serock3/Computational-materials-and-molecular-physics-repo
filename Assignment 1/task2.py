@@ -1,4 +1,4 @@
-# %%
+# %% Defines functions needed for the rest of the program
 import matplotlib.pylab as plt
 import numpy as np
 import seaborn as sns
@@ -42,9 +42,9 @@ def solve(ns,MaxIters,N,Rmax,Z):
         E[i] = getE(eps,VH,0,0,ns,Z)
         if np.abs(E[i]-E[i-1])<1e-5/27.21:
             break
-    return (ns, E)
+    return ns, E
 
-#%% Task 1
+#%% Task 1. Solves the Ansats Hartree-Fock problem.
 # Given alpha values
 a = [0.297104, 1.236745, 5.749982, 38.216677]
 
@@ -117,9 +117,9 @@ print("Eg = ", getEg(C, h, Q))
 print("C= ", C)
 
 # Print the radial PDF
-Rmax = 7  # atomic
-N = 1000
-h = Rmax/N
+Rmax = 7
+h = 0.006
+N = int(np.round(Rmax/h))
 r = np.linspace(h, Rmax, N)
 
 plt.figure(figsize=(8, 6))
@@ -131,7 +131,7 @@ plt.savefig('task1.pdf')
 
 task1density = 4*np.pi*r**2 * np.sum([C[i]*np.exp(-a[i]*r**2) for i in range(4)], axis=0)**2
 task1r = r
-#%% task 2
+#%% task 2. Solves Poisson's equation to get the Hartree potential
 
 Rmax = 10 # atomic
 Z=1
@@ -142,7 +142,6 @@ ns=1/np.pi*Z**3*np.exp(-2*Z*r)  #Hydrogen density
 VH=getVH(ns,N,Rmax)             #Get Hydrogen Hartree potential
 VHanalytic = 1/r-(1+1/r)*np.exp(-2*r)
 
-
 #Plot
 plt.figure(figsize=(8, 6))
 plt.plot(r,VH, label = r'Hartree method')
@@ -152,7 +151,7 @@ plt.legend()
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
 plt.ylabel("Potential [Ha]", fontsize=18)
 plt.savefig('task2.pdf')
-#%% task 3
+#%% task 3. Solves the Kohn-Sham equation to get the energy of the hydrogen atom.
 
 Rmax = 6 # atomic
 Z=1
@@ -168,13 +167,13 @@ print("E = ",getE(eps,0,0,0,ns,Z))  #Get hydrogen ground state energy
 #Plot
 plt.figure(figsize=(8, 6))
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
-plt.ylabel("Radial PDF", fontsize=18)
+plt.ylabel(r"Radial PDF [$a_0^{-1}$]", fontsize=18)
 plt.plot(r,4*np.pi*r**2*ns)
 plt.savefig('task3.pdf')
 
 task3density = 4*np.pi*r**2*ns
 task3r = r
-#%% Task 4 Rmax conv
+#%% Task 4. Calculates dependence on Rmax of the iterative Hartee-Fock method.
 Z= 2
 N=800               #Number of grid points
 Rmax = 6            # atomic
@@ -185,11 +184,11 @@ ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
 MaxIters = 15           #Max number of iterations
 E = np.zeros(MaxIters)  
 
-conIters = 8
-Rmaxlist = np.linspace(3,10,conIters)
+conIters = 10
+Rmaxlist = np.linspace(4,10,conIters)
 Econv = np.zeros(conIters)
 
-#Find best Rmax
+#Iterates over Rmax
 for i in range(conIters):
     N = int(np.round(Rmaxlist[i]/h))
     r = np.linspace(h,Rmaxlist[i],N)
@@ -197,58 +196,52 @@ for i in range(conIters):
     E = solve(ns,MaxIters,N,Rmaxlist[i],Z)[1] # Solves the self consistency problem
     Econv[i] = E[E!=0][-1]
     print("E = ", Econv[i], "at rmax", Rmaxlist[i]," and i ",i)
-    if np.abs(Econv[i]-Econv[i-1])<1e-5/27.21:
-        print("Within convergence criteria at rmax",Rmaxlist[i]," and i ",i)
     
+#%% Plots E for Rmax values
 plt.figure(figsize=(6.15, 4.6))
-plt.plot(Rmaxlist[:i],Econv[:i])
+plt.plot(Rmaxlist,Econv)
 plt.xlabel(r"$R_{max}$ [$a_0$]", fontsize=18)
-plt.ylabel(r"Energy [eV]", fontsize=18)
+plt.ylabel(r"Energy [Ha]", fontsize=18)
+plt.tight_layout()
 plt.savefig('task4_rmax.pdf')
 
-ns = solve(ns,MaxIters,N,Rmaxlist[i],Z)[0]
-#Plot ns
-plt.figure(figsize=(8, 6))
-plt.xlabel(r"Distance [$a_0$]", fontsize=18)
-plt.ylabel("Radial PDF", fontsize=18)
-plt.plot(r,4*np.pi*r**2*ns)
-# plt.savefig('task4.pdf')
-
-#Plot VH
-plt.figure(figsize=(8, 6))
-plt.xlabel(r"Distance [$a_0$]", fontsize=18)
-plt.ylabel("VH", fontsize=18)
-plt.plot(r,getVH(ns,N,Rmaxlist[i]))
-# plt.savefig('task4.pdf')
-#%% Task 4 h conv
+#%% Task 4. Plots dependence on stepsize h of the iterative Hartee-Fock method.
 Rmax = 7            # atomic
 h = 0.006          #Stepsize
 MaxIters = 15           #Max number of iterations
 E = np.zeros(MaxIters)  
 
-conIters = 9
-hlist = np.logspace(np.log10(0.03),np.log10(0.003),conIters)
-Econv = np.zeros(conIters)
+conIters = 10
+hlist = np.logspace(np.log10(0.04),np.log10(0.0025),conIters)
+Econvh = np.zeros(conIters)
 
-#Find best Rmax
+#Iterates over h
 for i in range(conIters):
     N = int(np.round(Rmax/hlist[i]))
     r = np.linspace(hlist[i],Rmax,N)
     ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
     E = solve(ns,MaxIters,N,Rmax,Z)[1] # Solves the self consistency problem
-    Econv[i] = E[E!=0][-1]
-    print("E = ", Econv[i], "at h", hlist[i]," and i ",i)
-    if np.abs(Econv[i]-Econv[i-1])<1e-5/27.21:
-        print("Within convergence criteria at h = ",hlist[i]," and i = ",i)
+    Econvh[i] = E[E!=0][-1]
+    print("E = ", Econvh[i], "at h", hlist[i]," and i ",i)
     
-plt.figure(figsize=(8, 6))
-plt.plot(hlist[:i],Econv[:i])
+#%% Plots E for h values
+plt.figure(figsize=(6.15, 4.6))
+plt.plot(hlist[1:],Econvh[1:])
 plt.xlabel(r"h [$a_0$]", fontsize=18)
-plt.ylabel("Energy [eV]", fontsize=18)
-plt.xlim(0.03,0)
+plt.ylabel("Energy [Ha]", fontsize=18)
+plt.xlim(0.025,0)
+plt.tight_layout()
 plt.savefig('task4_h.pdf')
-
-ns = solve(ns,MaxIters,N,Rmax,Z)[0]
+#%% Plot the final electron density for Task 4
+Rmax = 7
+h = 0.006
+N = int(np.round(Rmax/h))
+r = np.linspace(h,Rmax,N)
+ns=1/np.pi*Z**3*np.exp(-2*Z*r)
+MaxIters = 15           #Max number of iterations
+E = np.zeros(MaxIters)  
+ns, E = solve(ns,MaxIters,N,Rmax,Z)
+print("E = ", E[E!=0][-1])
 #Plot ns
 plt.figure(figsize=(8, 6))
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
@@ -258,28 +251,28 @@ plt.plot(r,4*np.pi*r**2*ns)
 task4density = 4*np.pi*r**2*ns
 task4r = r
 
-#%% plot together
+#%% Plot the electron densities together for tasks 1,4,5 and 6.
 plt.figure(figsize=(8, 6))
 plt.xlabel(r"Distance [$a_0$]", fontsize=18)
-plt.ylabel("Radial PDF", fontsize=18)
-plt.plot(task1r,task1density, label ="Helium Simple Hartree Fock")
-plt.plot(task3r,task3density, label ="Hydrogen Kohn Sham")
-plt.plot(task4r,task4density, label ="Helium Hartree Fock")
+plt.ylabel(r"Radial PDF [$a_0^{-1}$]", fontsize=18)
+plt.plot(task1r,task1density, label ="Ansatz Hartree-Fock")
+plt.plot(task4r,task4density,'--', label ="FD Hartree-Fock")
+plt.plot(task5r,task5density,'-.', label ="With exchange")
+plt.plot(task6r,task6density,':', label ="With exchange-correlation")
+plt.xlim([0,3])
 plt.legend()
-#%% Task 5
+plt.savefig('wavefuncs.pdf')
+#%% Task 5 Hartree-Fock with exchange correction.
 Z= 2
-N=1000          #Number of grid points
 Rmax = 7        # atomic
-h = Rmax/N      #Stepsize
+h = 0.006      #Stepsize
+N=int(np.round(Rmax/h))      #Number of grid points
 r = np.linspace(h,Rmax,N)
-
 ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
 
 #Exchange potential
-
 def getepsx(n,Z):
     return -3/4*(3*Z*ns/np.pi)**(1/3)
-
 def getVx(n,Z):
     return -1*(3*Z*ns/np.pi)**(1/3)
 
@@ -306,6 +299,9 @@ for i in range(MaxIters):
         break
 print("E = ", E[i])
 
+task5r=r
+task5density=4*np.pi*r**2*ns
+
 #Plot
 plt.figure()
 plt.plot(E[:i])
@@ -314,11 +310,11 @@ plt.xlabel(r"Distance [$a_0$]", fontsize=18)
 plt.ylabel("Radial PDF", fontsize=18)
 plt.plot(r,4*np.pi*r**2*ns)
 plt.savefig('task5.pdf')
-# %% Task 6
+# %% Task 6 Hartree-Fock with exchange-correlation correction.
 Z= 2
-N=1000           #Number of grid points
 Rmax = 7        # atomic
-h = Rmax/N      #Stepsize
+h = 0.006      #Stepsize
+N=int(np.round(Rmax/h))      #Number of grid points
 r = np.linspace(h,Rmax,N)
 
 ns=1/np.pi*Z**3*np.exp(-2*Z*r)      #Guess initial density
@@ -348,18 +344,12 @@ def getVx(n,Z):
 
 def getVc(n,Z):
     rs=getrs(n,Z)
-    Vc=(rs>=1)*getepsc(n,Z)*(1+7/6*beta1*np.sqrt(rs)+beta2*rs)/(1+beta1*np.sqrt(rs)+beta2*rs)
+    Vc=(rs>=1)*getepsc(n,Z)*(1+7/6*beta1*np.sqrt(rs)+4/3*beta2*rs)/(1+beta1*np.sqrt(rs)+beta2*rs)
     Vc+=(rs<1)*(A*np.log(rs)+B-A/3+2/3*C*rs*np.log(rs)+(2*D-C)*rs/3)
     return Vc
 
-#ndepsc=(rs>=1)*Z*ns*((gamma*(beta2+beta1/(2*np.sqrt(rs)))*4*np.pi*rs**4/9)/(1+beta1*np.sqrt(rs)+beta2*rs)**2)
-#ndepsc=ndepsc+(rs<1)*-Z*ns*(A/rs+C+C*np.log(rs)+D)*4*np.pi*rs**4/9
-
-
 epsxc = getepsx(Z*ns,Z)+getepsc(Z*ns,Z)
-
 Vxc = getVx(Z*ns,Z) + getVc(Z*ns,Z) 
-
 
 MaxIters = 30           #Max number of iterations
 E = np.zeros(MaxIters)
@@ -379,10 +369,10 @@ for i in range(MaxIters):
         break
 print("E = ", E[i])
 
+task6r=r
+task6density=4*np.pi*r**2*ns
+
 #Plot
 plt.plot(r,4*np.pi*r**2*ns)
 plt.figure()
 plt.plot(E[:i])
-
-
-# %%

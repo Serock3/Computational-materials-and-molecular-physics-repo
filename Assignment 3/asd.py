@@ -4,6 +4,7 @@ start_time = time.time()
 from random import random
 from ase.io import write
 from ase.io import read
+from ase.io import Trajectory
 from ase.db import connect
 from ase.optimize import GPMin
 from gpaw import GPAW, FermiDirac
@@ -21,27 +22,31 @@ from ase.ga.standardmutations import PermutationMutation
 import argparse
 
 from ase.md.npt import NPT
-atoms = read('someStartConfiguration.xyz')
+
+atoms = read('NaIncert.xyz')
 
 calc = GPAW(
     mode     = 'lcao',
     xc       = 'PBE',
     basis    = 'dzp',
-    symmetry= {'point -group ': False}, # Turn  off point -group  symmetry
+    symmetry= {'point_group': False}, # Turn  off point -group  symmetry
     charge   = 1, # Charged  system
-    txt      = 'gpawOutput.gpaw -out', # Redirects  calculator  output  to thisfile!
+    txt      = 'gpawOutput.gpaw-out', # Redirects  calculator  output  to thisfile!
     )
 atoms.set_calculator(calc)
 
 from ase.units import fs, kB
 
 dyn = NPT( # Some MD  method
+    atoms,
+    timestep = 0.5*fs, # This is not an  appropriate  timestep , I can  tell  you that!
     temperature = 350*kB,
-    timestep = 1000*fs, # This is not an  appropriate  timestep , I can  tell  youthat!
+    externalstress = 0,
     ttime = 20*fs, # Don't forget  the fs!
+    pfactor = None,
     logfile = 'mdOutput.log', # Outputs  temperature (and  more) to file at eachtimestep
     )
 trajectory = Trajectory('someDynamics.traj', 'w', atoms)
-dyn.attach(trajectory.write , interval =1) # Write  the  current  positions  etc. to fileeach  timestep
+dyn.attach(trajectory.write , interval =1) # Write  the  current  positions  etc. to file each  timestep
 
-dyn.run (10) # Run 10  steps of MD  simulation
+dyn.run (4000) # Run 10  steps of MD  simulation

@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "D:\\cygwin64\\bin\\python2.7.exe",
+    "python.pythonPath": "/home/sebastian/miniconda3/bin/python",
     "liveshare.allowGuestDebugControl": true,
     "liveshare.allowGuestTaskControl": true,
     "python.autoComplete.extraPaths": [

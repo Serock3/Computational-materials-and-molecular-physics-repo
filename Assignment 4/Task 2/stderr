@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+    runpy.run_path(gpaw_args.script, run_name='__main__')
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "Task2_omega.py", line 139, in <module>
+    y_t = fold(x_t, np.sqrt(Omega2), fx, 0.06)
+  File "Task2_omega.py", line 52, in fold
+    for x, y in zip(x_i, y_i):
+TypeError: zip argument #2 must support iteration

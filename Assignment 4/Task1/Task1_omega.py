@@ -22,8 +22,6 @@ filename1 = 'spectrum_w.06eV.dat'
 print("Plotting")
 data = np.loadtxt(filename1)
 plt.plot(data[:,2])
-plt.show()
 plt.savefig('test.pdf')
-
 
 # %%

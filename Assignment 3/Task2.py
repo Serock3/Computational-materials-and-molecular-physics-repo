@@ -1,16 +1,11 @@
-#%%
-#Save wavefcn from gadb.db in .gpw format
-from ase.io.trajectory import Trajectory
-from ase import Atoms, Atom
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
+from ase.io.trajectory import Trajectory
+
 #traj = Trajectory('./Na-aimd/NaCluster24.traj')
-# traj = Trajectory('./Na-aimd/NaCluster24.traj')
 traj = Trajectory('someDynamics.traj')
 start = 1000
 stop = len(traj)
-# stop = 1001
-
 distances = np.array([])
 for i in range(start,stop):
     atoms = traj[i]
@@ -42,8 +37,6 @@ plt.ylabel(r"$g_{Na O}(r)$", fontsize=18)
 plt.tight_layout()
 plt.savefig('RDF_NaO_ours.pdf')
 plt.show()
-print("solvation shell = ",np.trapz(g[:minimum],dx=dr))
-print("asdasd ", sum(hist[0][:minimum])/(stop-start))
+# print("solvation shell = ",np.trapz(g[:minimum],dx=dr))
+print("solvation shell =  ", sum(hist[0][:minimum])/(stop-start))
 
-
-# %%

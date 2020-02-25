@@ -1,5 +1,4 @@
-#%%
-#Save wavefcn from gadb.db in .gpw format
+
 from ase.io.trajectory import Trajectory
 from ase import Atoms, Atom
 from matplotlib import pyplot as plt
@@ -12,8 +11,6 @@ stop = len(traj)
 
 distances = np.array([])
 for atomToCalc in range(24):
-# atomToCalc=5
-    
     for i in range(start,stop):
         atoms = traj[i]
         distToCalc=atoms.get_atomic_numbers()==8
@@ -46,7 +43,7 @@ plt.tight_layout()
 plt.savefig('RDF_water.pdf')
 plt.show()
 
-print("solvation shell = ",np.trapz(g[:minimum],dx=dr))
-print("asdasd ", sum(hist[0][:minimum])/(stop-start)/24)
+# print("solvation shell = ",np.trapz(g[:minimum],dx=dr))
+print("solvation shell = ", sum(hist[0][:minimum])/(stop-start)/24)
 
 # %%

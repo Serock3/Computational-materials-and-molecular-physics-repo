@@ -17,9 +17,15 @@ photoabsorption_spectrum(lr, 'spectrum_w.06eV.dat', # data file name
                          width=0.06)                # width in eV
 
 lr.write('LrTDDFTresults.dat')
-filename1 = 'spectrum_w.06eV.dat'
+#%%
+filename1 = '../Task1/spectrum_w.06eV.dat'
 # import data
 print("Plotting")
 data = np.loadtxt(filename1)
-plt.plot(data[:,2])
+plt.plot(data[:,0],data[:,1])
+plt.xlabel('a.u.')
+plt.ylabel('eV')
 plt.savefig('test.pdf')
+
+
+# %%

@@ -23,5 +23,3 @@ print("Plotting")
 data = np.loadtxt(filename1)
 plt.plot(data[:,2])
 plt.savefig('test.pdf')
-
-# %%

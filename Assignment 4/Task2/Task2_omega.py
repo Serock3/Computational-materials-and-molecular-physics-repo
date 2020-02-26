@@ -136,11 +136,15 @@ mu_z=dump['muz_p']
 
 print("making fx")
 fx=2*np.abs(np.sum(mu_x*np.sqrt(2*omega_p)*F_I,axis=0))**2
+fy=2*np.abs(np.sum(mu_y*np.sqrt(2*omega_p)*F_I,axis=0))**2
+fz=2*np.abs(np.sum(mu_z*np.sqrt(2*omega_p)*F_I,axis=0))**2
+
+f=(fx+fy+fz)/3
 print("Fx ", fx.shape)
 x_t = np.linspace(np.sqrt(np.min(Omega2))-1,np.sqrt(np.max(Omega2))+1)
-y_t = fold(x_t, np.sqrt(Omega2), fx, 0.06)
+y_t = fold(x_t, np.sqrt(Omega2), f, 0.06)
 
-
-
+plt.plot(x_t,y_t)
+plt.savefig('our_spectrum.pdf')
 
 # %%

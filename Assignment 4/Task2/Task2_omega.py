@@ -114,7 +114,7 @@ discrete_spectrum(lr, 'discrete_spectrum_GPAW.dat')
 
 print("dump_data")
 dump_data(lr,'dumpFile.npz')
-#%%
+
 dump = np.load('dumpFile.npz')
 print("getting stuff")
 K_pp = dump['K_pp']
@@ -147,5 +147,5 @@ y_t = fold(x_t, np.sqrt(Omega2), f, 0.01)
 plt.plot(x_t,y_t)
 plt.savefig('our_spectrum.pdf')
 
-discrete_spectrum(lr)
+discrete_GPAW = np.load('discrete_spectrum_GPAW.txt')
 # %%

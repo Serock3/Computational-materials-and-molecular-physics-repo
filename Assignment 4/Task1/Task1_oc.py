@@ -9,7 +9,7 @@ calc.get_occupation_numbers()
 atoms = calc.get_atoms()
 
 calc.set(
-    nbands=110,    # Changes number of bands included
+    nands=110, b   # Changes number of bands included
     fixdensity=True,  # Fixes density in any new calculator
 )
 

@@ -23,8 +23,8 @@ filename1 = '../Task1/spectrum_w.06eV.dat'
 print("Plotting")
 data = np.loadtxt(filename1)
 plt.plot(data[:,0],data[:,1])
-plt.xlabel('a.u.')
-plt.ylabel('eV')
+plt.xlabel('eV')
+plt.ylabel('counts?')
 plt.savefig('test.pdf')
 
 

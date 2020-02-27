@@ -1,0 +1,494 @@
+
+  ___ ___ ___ _ _ _  
+ |   |   |_  | | | | 
+ | | | | | . | | | | 
+ |__ |  _|___|_____|  19.8.1
+ |___|_|             
+
+User:   holmins@hebbe30-8
+Date:   Thu Feb 27 12:57:14 2020
+Arch:   x86_64
+Pid:    1421
+Python: 3.7.2
+gpaw:   /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw
+_gpaw:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/bin/
+        gpaw-python
+ase:    /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase (version 3.18.0)
+numpy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/numpy (version 1.16.2)
+scipy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/scipy (version 1.2.1)
+libxc:  4.3.4
+units:  Angstrom and eV
+cores:  4
+
+Reading from Na_gs_0bands.gpw
+Read dipole, energy, free_energy
+Reading input parameters:
+  h: 0.3
+  nbands: 0
+  setups: {Na: 1}
+
+Initialize ...
+
+Na-setup:
+  name: Sodium
+  id: fa5c50181d04022fed15b2593599c257
+  Z: 11
+  valence: 1
+  core: 10
+  charge: 0.0
+  file: /apps/Common/Core/GPAW-setups/0.9.20000/Na.1.LDA.gz
+  compensation charges: gauss, rc=0.43, lmax=2
+  cutoffs: 2.36(filt), 3.60(core),
+  valence states:
+                energy  radius
+    3s(1.00)    -2.819   1.349
+    3p(0.00)    -0.774   1.349
+    *s          24.392   1.349
+
+  Using partial waves for Na as LCAO basis
+
+Reference energy: -35189.668405
+
+Spin-paired calculation
+
+Occupation numbers:
+  Fermi-Dirac: width=0.0000 eV
+
+Convergence criteria:
+  Maximum total energy change: 0.0005 eV / electron
+  Maximum integral of absolute density change: 0.0001 electrons
+  Maximum integral of absolute eigenstate change: 4e-08 eV^2
+  Maximum number of iterations: 333
+
+Symmetries present (total): 1
+
+  ( 1  0  0)
+  ( 0  1  0)
+  ( 0  0  1)
+
+1 k-point (Gamma)
+1 k-point in the irreducible part of the Brillouin zone
+       k-points in crystal coordinates                weights
+   0:     0.00000000    0.00000000    0.00000000          1/1
+
+Wave functions: Uniform real-space grid
+  Kinetic energy operator: 6*3+1=19 point O(h^6) finite-difference Laplacian
+  ScaLapack parameters: grid=1x1, blocksize=None
+  Wavefunction extrapolation:
+    Wavefunctions kept unchanged if atoms move 
+
+Eigensolver
+   Davidson(niter=2, smin=None, normalize=True) 
+
+Densities:
+  Coarse grid: 72*64*64 grid
+  Fine grid: 144*128*128 grid
+  Total Charge: 0.000000 
+
+No density mixing
+
+Hamiltonian:
+  XC and Coulomb potentials evaluated on a 144*128*128 grid
+  Using the LDA Exchange-Correlation functional
+  Interpolation: tri-quintic (5. degree polynomial)
+  Poisson solver: FastPoissonSolver using
+    6*3+1=19 point O(h^6) finite-difference Laplacian stencil;
+    FFT axes: [];
+    FST axes: [1, 2, 0].
+ 
+
+Memory estimate:
+  Process memory now: 135.35 MiB
+  Calculator: 40.52 MiB
+    Density: 17.38 MiB
+      Arrays: 14.05 MiB
+      Localized functions: 3.33 MiB
+      Mixer: 0.00 MiB
+    Hamiltonian: 9.43 MiB
+      Arrays: 9.19 MiB
+      XC: 0.00 MiB
+      Poisson: 0.00 MiB
+      vbar: 0.24 MiB
+    Wavefunctions: 13.71 MiB
+      Arrays psit_nG: 4.17 MiB
+      Eigensolver: 9.39 MiB
+      Projections: 0.00 MiB
+      Projectors: 0.15 MiB
+
+Total number of cores used: 4
+Domain decomposition: 2 x 1 x 2
+
+Number of atoms: 8
+Number of atomic orbitals: 32
+Number of bands in calculation: 4
+Bands to converge: occupied states only
+Number of valence electrons: 8
+
+... initialized
+
+Initializing position-dependent things.
+
+Density initialized from wave functions
+             .---------------------------------------------------.  
+            /|                                                   |  
+           / |                                                   |  
+          /  |                                                   |  
+         /   |                                                   |  
+        /    |                                                   |  
+       /     |                                                   |  
+      /      |                                                   |  
+     /       |                                                   |  
+    /        |                                                   |  
+   /         |                                                   |  
+  /          |                                                   |  
+ *           |                                                   |  
+ |           |                                                   |  
+ |           |                                                   |  
+ |           |                Na      Na                         |  
+ |           |                                                   |  
+ |           |                 Na                                |  
+ |           |                        Na                         |  
+ |           |            Na     Na                              |  
+ |           |                          Na                       |  
+ |           |                   Na                              |  
+ |           |                                                   |  
+ |           |                                                   |  
+ |           .---------------------------------------------------.  
+ |          /                                                   /   
+ |         /                                                   /    
+ |        /                                                   /     
+ |       /                                                   /      
+ |      /                                                   /       
+ |     /                                                   /        
+ |    /                                                   /         
+ |   /                                                   /          
+ |  /                                                   /           
+ | /                                                   /            
+ |/                                                   /             
+ *---------------------------------------------------*              
+
+Positions:
+   0 Na    10.922192    8.238463    8.000000    ( 0.0000,  0.0000,  0.0000)
+   1 Na    12.257661   11.157996   11.382019    ( 0.0000,  0.0000,  0.0000)
+   2 Na    10.216336    8.203886   11.527427    ( 0.0000,  0.0000,  0.0000)
+   3 Na    13.296094   10.707686    8.133404    ( 0.0000,  0.0000,  0.0000)
+   4 Na    10.224938   11.735947    8.480750    ( 0.0000,  0.0000,  0.0000)
+   5 Na     8.000000    9.197826    9.099813    ( 0.0000,  0.0000,  0.0000)
+   6 Na    13.288608    8.000000   10.468102    ( 0.0000,  0.0000,  0.0000)
+   7 Na     9.008393   11.414603   11.674558    ( 0.0000,  0.0000,  0.0000)
+
+
+
+------------------------------------------
+  Time-propagation TDDFT                  
+------------------------------------------
+
+Charge epsilon:  1e-05
+Solver:  CSCG
+Preconditioner:  None
+Propagator:  SICN
+States per processor =  4
+Delta kick =  [0.0, 1e-05, 0.0]
+
+Starting time:    0.00 as
+Time step:       30.00 as
+
+                        Simulation     Total         log10     Iterations:
+             Time          time        Energy (eV)   Norm      Propagator
+iter:   0  12:57:16        0.00       -7.937914     -14.5          0
+iter:  10  12:57:53      300.00       -7.937915     -14.7         64
+iter:  20  12:58:24      600.00       -7.937914     -15.4         63
+iter:  30  12:58:53      900.00       -7.937914     -15.2         55
+iter:  40  12:59:22     1200.00       -7.937914     -14.3         56
+iter:  50  12:59:51     1500.00       -7.937914     -15.3         56
+iter:  60  13:00:20     1800.00       -7.937914     -14.6         55
+iter:  70  13:00:49     2100.00       -7.937914     -14.7         55
+iter:  80  13:01:17     2400.00       -7.937914     -15.0         56
+iter:  90  13:01:46     2700.00       -7.937914     -14.4         57
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+100  iterations done. Current time is  2999.9999999999986  as.
+iter: 100  13:02:15     3000.00       -7.937914     -14.4         63
+iter: 110  13:02:45     3300.00       -7.937914     -14.9         60
+iter: 120  13:03:14     3600.00       -7.937914     -15.1         55
+iter: 130  13:03:45     3900.00       -7.937914     -14.9         63
+iter: 140  13:04:14     4200.00       -7.937914     -14.8         56
+iter: 150  13:04:42     4500.00       -7.937914     -14.8         55
+iter: 160  13:05:11     4800.00       -7.937914     -15.4         56
+iter: 170  13:05:40     5100.00       -7.937914     -14.6         56
+iter: 180  13:06:08     5400.00       -7.937913     -14.4         60
+iter: 190  13:06:37     5700.00       -7.937913     -14.2         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+200  iterations done. Current time is  6000.00000000003  as.
+iter: 200  13:07:06     6000.00       -7.937913     -14.5         55
+iter: 210  13:07:36     6300.00       -7.937914     -14.8         63
+iter: 220  13:08:06     6600.00       -7.937913     -14.9         55
+iter: 230  13:08:36     6900.00       -7.937913     -14.3         63
+iter: 240  13:09:05     7200.00       -7.937913     -15.1         56
+iter: 250  13:09:33     7500.00       -7.937913     -14.9         55
+iter: 260  13:10:02     7800.00       -7.937913     -14.3         60
+iter: 270  13:10:31     8100.00       -7.937913     -15.5         56
+iter: 280  13:10:59     8400.00       -7.937913     -15.4         63
+iter: 290  13:11:30     8700.00       -7.937913     -15.1         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+300  iterations done. Current time is  9000.0  as.
+iter: 300  13:11:59     9000.00       -7.937913     -14.9         56
+iter: 310  13:12:28     9300.00       -7.937913     -14.9         60
+iter: 320  13:12:58     9600.00       -7.937913     -14.8         56
+iter: 330  13:13:27     9900.00       -7.937913     -14.5         62
+iter: 340  13:13:58    10200.00       -7.937913     -15.8         56
+iter: 350  13:14:27    10500.00       -7.937913     -14.6         55
+iter: 360  13:14:55    10800.00       -7.937914     -14.6         56
+iter: 370  13:15:24    11100.00       -7.937913     -14.8         56
+iter: 380  13:15:53    11400.00       -7.937914     -14.7         55
+iter: 390  13:16:21    11700.00       -7.937914     -14.5         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+400  iterations done. Current time is  11999.999999999964  as.
+iter: 400  13:16:50    12000.00       -7.937914     -14.5         56
+iter: 410  13:17:19    12300.00       -7.937914     -14.6         60
+iter: 420  13:17:49    12600.00       -7.937914     -14.8         57
+iter: 430  13:18:17    12900.00       -7.937914     -14.6         55
+iter: 440  13:18:47    13200.00       -7.937914     -14.6         61
+iter: 450  13:19:16    13500.00       -7.937914     -14.3         57
+iter: 460  13:19:45    13800.00       -7.937914     -14.4         56
+iter: 470  13:20:13    14100.00       -7.937914     -15.5         57
+iter: 480  13:20:42    14400.00       -7.937914     -15.3         56
+iter: 490  13:21:10    14700.00       -7.937914     -14.7         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+500  iterations done. Current time is  15000.000000000047  as.
+iter: 500  13:21:40    15000.00       -7.937915     -15.4         60
+iter: 510  13:22:09    15300.00       -7.937915     -14.7         55
+iter: 520  13:22:39    15600.00       -7.937914     -14.8         56
+iter: 530  13:23:08    15900.00       -7.937915     -14.8         55
+iter: 540  13:23:36    16200.00       -7.937915     -14.6         56
+iter: 550  13:24:06    16500.00       -7.937915     -14.5         56
+iter: 560  13:24:35    16800.00       -7.937915     -14.9         56
+iter: 570  13:25:04    17100.00       -7.937915     -14.3         59
+iter: 580  13:25:33    17400.00       -7.937915     -14.7         56
+iter: 590  13:26:01    17700.00       -7.937915     -15.5         55
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+600  iterations done. Current time is  18000.00000000015  as.
+iter: 600  13:26:31    18000.00       -7.937915     -15.5         58
+iter: 610  13:27:00    18300.00       -7.937915     -15.2         56
+iter: 620  13:27:29    18600.00       -7.937914     -15.0         59
+iter: 630  13:27:58    18900.00       -7.937915     -14.8         56
+iter: 640  13:28:27    19200.00       -7.937915     -14.3         56
+iter: 650  13:28:56    19500.00       -7.937915     -14.6         60
+iter: 660  13:29:25    19800.00       -7.937915     -15.1         55
+iter: 670  13:29:54    20100.00       -7.937915     -15.1         57
+iter: 680  13:30:23    20400.00       -7.937915     -14.7         57
+iter: 690  13:30:52    20700.00       -7.937915     -14.6         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+700  iterations done. Current time is  21000.00000000025  as.
+iter: 700  13:31:22    21000.00       -7.937915     -14.5         57
+iter: 710  13:31:51    21300.00       -7.937915     -14.7         56
+iter: 720  13:32:20    21600.00       -7.937916     -15.4         57
+iter: 730  13:32:49    21900.00       -7.937915     -14.6         56
+iter: 740  13:33:18    22200.00       -7.937915     -14.7         56
+iter: 750  13:33:47    22500.00       -7.937916     -15.2         59
+iter: 760  13:34:16    22800.00       -7.937916     -14.6         56
+iter: 770  13:34:45    23100.00       -7.937915     -15.3         59
+iter: 780  13:35:14    23400.00       -7.937915     -15.7         56
+iter: 790  13:35:43    23700.00       -7.937916     -14.7         55
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+800  iterations done. Current time is  24000.000000000353  as.
+iter: 800  13:36:12    24000.00       -7.937915     -14.6         57
+iter: 810  13:36:40    24300.00       -7.937915     -15.0         55
+iter: 820  13:37:08    24600.00       -7.937915     -14.6         55
+iter: 830  13:37:38    24900.00       -7.937915     -15.1         60
+iter: 840  13:38:07    25200.00       -7.937915     -14.4         55
+iter: 850  13:38:35    25500.00       -7.937915     -14.9         59
+iter: 860  13:39:06    25800.00       -7.937915     -14.5         55
+iter: 870  13:39:34    26100.00       -7.937915     -14.7         60
+iter: 880  13:40:03    26400.00       -7.937915     -15.3         56
+iter: 890  13:40:32    26700.00       -7.937915     -14.4         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+900  iterations done. Current time is  27000.00000000045  as.
+iter: 900  13:41:00    27000.00       -7.937915     -14.8         56
+iter: 910  13:41:29    27300.00       -7.937915     -15.2         56
+iter: 920  13:41:57    27600.00       -7.937915     -15.1         55
+iter: 930  13:42:26    27900.00       -7.937915     -14.5         56
+iter: 940  13:42:55    28200.00       -7.937915     -14.6         56
+iter: 950  13:43:23    28500.00       -7.937915     -14.3         56
+iter: 960  13:43:52    28800.00       -7.937915     -14.4         56
+iter: 970  13:44:21    29100.00       -7.937915     -15.4         56
+iter: 980  13:44:50    29400.00       -7.937915     -14.7         56
+iter: 990  13:45:19    29700.00       -7.937915     -14.3         55
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1000  iterations done. Current time is  30000.000000000553  as.
+iter: 1000  13:45:48    30000.00       -7.937915     -14.7         55
+iter: 1010  13:46:16    30300.00       -7.937915     -14.6         56
+iter: 1020  13:46:45    30600.00       -7.937915     -14.7         56
+iter: 1030  13:47:14    30900.00       -7.937915     -14.8         56
+iter: 1040  13:47:43    31200.00       -7.937915     -14.4         56
+iter: 1050  13:48:11    31500.00       -7.937915     -14.6         56
+iter: 1060  13:48:40    31800.00       -7.937915     -14.5         56
+iter: 1070  13:49:09    32100.00       -7.937915     -15.4         55
+iter: 1080  13:49:37    32400.00       -7.937915     -14.7         56
+iter: 1090  13:50:06    32700.00       -7.937915     -14.4         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1100  iterations done. Current time is  33000.000000000655  as.
+iter: 1100  13:50:35    33000.00       -7.937915     -14.3         57
+iter: 1110  13:51:04    33300.00       -7.937914     -14.8         56
+iter: 1120  13:51:34    33600.00       -7.937914     -15.7         61
+iter: 1130  13:52:03    33900.00       -7.937914     -14.6         56
+iter: 1140  13:52:32    34200.00       -7.937914     -14.6         56
+iter: 1150  13:53:01    34500.00       -7.937914     -15.2         55
+iter: 1160  13:53:29    34800.00       -7.937913     -14.5         56
+iter: 1170  13:53:58    35100.00       -7.937913     -14.8         58
+iter: 1180  13:54:27    35400.00       -7.937913     -14.6         56
+iter: 1190  13:54:55    35700.00       -7.937913     -15.0         57
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1200  iterations done. Current time is  36000.00000000076  as.
+iter: 1200  13:55:25    36000.00       -7.937913     -15.0         56
+iter: 1210  13:55:53    36300.00       -7.937913     -15.3         56
+iter: 1220  13:56:22    36600.00       -7.937913     -14.7         56
+iter: 1230  13:56:50    36900.00       -7.937913     -15.1         56
+iter: 1240  13:57:19    37200.00       -7.937913     -14.9         56
+iter: 1250  13:57:49    37500.00       -7.937913     -15.7         61
+iter: 1260  13:58:17    37800.00       -7.937913     -14.6         56
+iter: 1270  13:58:45    38100.00       -7.937913     -14.7         55
+iter: 1280  13:59:14    38400.00       -7.937913     -14.5         56
+iter: 1290  13:59:42    38700.00       -7.937913     -15.1         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1300  iterations done. Current time is  39000.00000000086  as.
+iter: 1300  14:00:11    39000.00       -7.937913     -14.6         56
+iter: 1310  14:00:39    39300.00       -7.937913     -14.4         56
+iter: 1320  14:01:08    39600.00       -7.937913     -14.5         56
+iter: 1330  14:01:36    39900.00       -7.937912     -15.0         56
+iter: 1340  14:02:05    40200.00       -7.937912     -15.0         56
+iter: 1350  14:02:34    40500.00       -7.937912     -14.7         57
+iter: 1360  14:03:03    40800.00       -7.937912     -15.2         57
+iter: 1370  14:03:31    41100.00       -7.937912     -15.4         56
+iter: 1380  14:04:00    41400.00       -7.937912     -15.2         56
+iter: 1390  14:04:29    41700.00       -7.937912     -14.7         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1400  iterations done. Current time is  42000.00000000096  as.
+iter: 1400  14:04:58    42000.00       -7.937912     -14.3         56
+iter: 1410  14:05:27    42300.00       -7.937912     -14.6         56
+iter: 1420  14:05:56    42600.00       -7.937912     -15.0         56
+iter: 1430  14:06:25    42900.00       -7.937912     -15.1         56
+iter: 1440  14:06:54    43200.00       -7.937912     -15.0         56
+iter: 1450  14:07:22    43500.00       -7.937912     -14.6         56
+iter: 1460  14:07:51    43800.00       -7.937912     -14.8         58
+iter: 1470  14:08:20    44100.00       -7.937912     -15.4         56
+iter: 1480  14:08:50    44400.00       -7.937912     -14.5         60
+iter: 1490  14:09:19    44700.00       -7.937912     -14.4         56
+Writing to na_td.gpw (mode='all')
+
+Wrote restart file.
+1500  iterations done. Current time is  45000.00000000106  as.
+Writing to na_td.gpw (mode='all')
+
+Calculating photoabsorption spectrum from file "na_dm.dat"
+Sinc contamination 0.00000000
+Calculated photoabsorption spectrum saved to file "na_spectrum_z.dat"
+Timing:                                      incl.     excl.
+-------------------------------------------------------------------
+Apply approximate inverse overlap:           0.003     0.003   0.0% |
+Apply time-dependent operators:              0.021     0.021   0.0% |
+CSCG:                                        0.101     0.036   0.0% |
+ Apply time-dependent operators:             0.061     0.061   0.0% |
+ Solve TDDFT preconditioner:                 0.005     0.005   0.0% |
+Density initialized from wave functions:     0.025     0.025   0.0% |
+ Symmetrize density:                         0.000     0.000   0.0% |
+Hamiltonian:                                 0.311     0.000   0.0% |
+ Atomic:                                     0.028     0.003   0.0% |
+  XC Correction:                             0.025     0.025   0.0% |
+ Calculate atomic Hamiltonians:              0.005     0.005   0.0% |
+ Communicate:                                0.003     0.003   0.0% |
+ Hartree integrate/restrict:                 0.013     0.013   0.0% |
+ Poisson:                                    0.164     0.010   0.0% |
+  Communicate bwd 0:                         0.013     0.013   0.0% |
+  Communicate bwd 1:                         0.043     0.043   0.0% |
+  Communicate fwd 0:                         0.047     0.047   0.0% |
+  Communicate fwd 1:                         0.015     0.015   0.0% |
+  fft:                                       0.014     0.014   0.0% |
+  fft2:                                      0.023     0.023   0.0% |
+ XC 3D grid:                                 0.095     0.095   0.0% |
+ vbar:                                       0.003     0.003   0.0% |
+Propagate:                                4351.995    44.901   1.0% |
+ Apply approximate inverse overlap:          8.253     8.253   0.2% |
+ Apply time-dependent operators:            77.547    77.547   1.8% ||
+ CSCG:                                    3266.498   914.773  21.0% |-------|
+  Apply time-dependent operators:         2262.263  2262.263  52.0% |--------------------|
+  Solve TDDFT preconditioner:               89.462    89.462   2.1% ||
+ Density:                                    3.573     0.004   0.0% |
+  Atomic density matrices:                   0.146     0.146   0.0% |
+  Mix:                                       3.230     3.230   0.1% |
+  Multipole moments:                         0.022     0.022   0.0% |
+  Pseudo density:                            0.171     0.168   0.0% |
+   Symmetrize density:                       0.003     0.003   0.0% |
+ Hamiltonian:                               41.685     0.020   0.0% |
+  Atomic:                                    3.897     0.116   0.0% |
+   XC Correction:                            3.780     3.780   0.1% |
+  Calculate atomic Hamiltonians:             0.962     0.962   0.0% |
+  Communicate:                               0.060     0.060   0.0% |
+  Hartree integrate/restrict:                1.596     1.596   0.0% |
+  Poisson:                                  21.000     1.231   0.0% |
+   Communicate bwd 0:                        1.388     1.388   0.0% |
+   Communicate bwd 1:                        6.185     6.185   0.1% |
+   Communicate fwd 0:                        5.734     5.734   0.1% |
+   Communicate fwd 1:                        1.406     1.406   0.0% |
+   fft:                                      1.936     1.936   0.0% |
+   fft2:                                     3.120     3.120   0.1% |
+  XC 3D grid:                               13.825    13.825   0.3% |
+  vbar:                                      0.326     0.326   0.0% |
+ Update time-dependent operators:          909.537     3.149   0.1% |
+  Density:                                  71.964     0.076   0.0% |
+   Atomic density matrices:                  2.992     2.992   0.1% |
+   Mix:                                     64.951    64.951   1.5% ||
+   Multipole moments:                        0.452     0.452   0.0% |
+   Pseudo density:                           3.493     3.429   0.1% |
+    Symmetrize density:                      0.064     0.064   0.0% |
+  Hamiltonian:                             834.424     0.391   0.0% |
+   Atomic:                                  77.947     2.361   0.1% |
+    XC Correction:                          75.586    75.586   1.7% ||
+   Calculate atomic Hamiltonians:           18.095    18.095   0.4% |
+   Communicate:                              1.227     1.227   0.0% |
+   Hartree integrate/restrict:              32.503    32.503   0.7% |
+   Poisson:                                420.693    24.657   0.6% |
+    Communicate bwd 0:                      27.749    27.749   0.6% |
+    Communicate bwd 1:                     124.228   124.228   2.9% ||
+    Communicate fwd 0:                     114.727   114.727   2.6% ||
+    Communicate fwd 1:                      28.151    28.151   0.6% |
+    fft:                                    38.682    38.682   0.9% |
+    fft2:                                   62.499    62.499   1.4% ||
+   XC 3D grid:                             276.916   276.916   6.4% |--|
+   vbar:                                     6.651     6.651   0.2% |
+Redistribute:                                0.001     0.001   0.0% |
+Set symmetry:                                0.001     0.001   0.0% |
+Update time-dependent operators:             0.001     0.001   0.0% |
+Other:                                       2.146     2.146   0.0% |
+-------------------------------------------------------------------
+Total:                                              4354.603 100.0%
+
+Memory usage: 186.88 MiB
+Date: Thu Feb 27 14:09:48 2020

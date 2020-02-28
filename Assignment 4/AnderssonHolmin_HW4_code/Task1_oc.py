@@ -3,7 +3,7 @@ from ase import Atom, atoms
 from ase.io import Trajectory, read
 from gpaw import GPAW
 
-# %% Task 1 unoccupied
+# %% Task 1 only occupied bands
 atoms = read('our_cluster.xyz')
 
 atoms.center(vacuum=8)  # Apply vacuum

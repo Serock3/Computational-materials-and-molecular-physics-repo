@@ -1,3 +1,4 @@
+#Converges 100 of 110 unoccupied bands
 from ase import Atom, atoms
 from ase.io import Trajectory, read
 from gpaw import GPAW

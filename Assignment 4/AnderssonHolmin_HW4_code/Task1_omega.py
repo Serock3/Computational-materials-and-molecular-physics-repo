@@ -1,4 +1,5 @@
 #%%
+# Solving the Casida equation
 from gpaw import GPAW
 from gpaw.lrtddft import LrTDDFT
 from gpaw.lrtddft import photoabsorption_spectrum

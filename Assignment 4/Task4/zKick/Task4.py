@@ -16,6 +16,7 @@ td_calc.propagate(time_step, iterations, 'na_dm.dat', 'na_td.gpw')
 
 #%%
 # Calculate photoabsorption spectrum and write it to 'be_spectrum_z.dat'
-photoabsorption_spectrum('na_dm.dat', 'na_spectrum_zasd.dat',width=0.06)
+photoabsorption_spectrum('na_dm.dat', 'na_spectrum_z.dat',width=0.06)
 
 # %%
+

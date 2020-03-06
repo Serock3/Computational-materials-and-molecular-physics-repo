@@ -24,6 +24,7 @@ for i in range (1,11):
     vibs.combine()
 
     freq=vibs.get_frequencies()
+
     vibs.write_dos('dos.txt',start=0)
     dos=np.loadtxt('dos.txt')
 
@@ -36,4 +37,11 @@ for i in range (1,11):
     print(new_db[i].data['frequency'])
     print(new_db[i].data['density-of-states'])
 
+# %% Plot
+from matplotlib import pyplot as plt
+i=1
+plt.plot(new_db[i].data['density-of-states'][:,0],new_db[i].data['density-of-states'][:,1])
+plt.xlim(0,400)
+plt.figure()
+plt.plot(new_db[i].data['frequency'])
 # %%

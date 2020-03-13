@@ -37,5 +37,13 @@ db_rel.write(atoms,data={'Cohesive-energy': Cohesive_energy/size, 'Lattice-param
 
 # %%
 
+db_rel_new = connect('Task1/Al-clusters-relaxed-new.db')
+for i in range(1,11):
+    if i==9:
+        continue
+    atoms = db_rel[i].toatoms()
+    db_rel_new.write(atoms,data={'Cohesive-energy': db_rel[i].data['Cohesive-energy'], 'Lattice-param':db_rel[i].data['Lattice-param']})
+atoms = db_rel[13].toatoms()
+db_rel_new.write(atoms,data={'Cohesive-energy': db_rel[13].data['Cohesive-energy'], 'Lattice-param':db_rel[13].data['Lattice-param']})
 
 # %%

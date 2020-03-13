@@ -3,8 +3,12 @@ from ase.db import connect
 from ase import Atom, atoms
 from ase.io import Trajectory, read
 from ase.calculators.eam import EAM
-
+import numpy as np
 #%% Task 1
+
+sizes  = np.zeros(10)
+E_coh = np.zeros(10)
+
 for i in range (1,11):
     db = connect('Al-clusters-initial.db')
     atoms = db[i].toatoms()
@@ -20,10 +24,20 @@ for i in range (1,11):
     atoms.get_forces()
     size=atoms.get_number_of_atoms()
     print('Size:',size)
+    sizes[i-1] = size
     print('Cohesive energy: ',Cohesive_energy/size)
+    E_coh[i-1] = Cohesive_energy/size
     mean_lattice_param = np.mean([np.min(atoms.get_all_distances()[i,:][atoms.get_all_distances()[i,:]!=0]) for i in range(1,11)])
     # Lattice_param=np.mean(np.min(atoms.get_all_distances()[atoms.get_all_distances()!=0],axis=0))*np.sqrt(2)
     print('"Lattice param": ', mean_lattice_param*np.sqrt(2))
+plt.figure(figsize=(8,6))
+
+plt.scatter(sizes,E_coh)
+plt.xlabel('Number of atoms')
+plt.ylabel('Cohesive energy per atom [eV]')
+
+plt.tight_layout()
+plt.savefig('Task1.pdf')
 
 # %% Task 2
 

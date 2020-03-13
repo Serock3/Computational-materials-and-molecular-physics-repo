@@ -14,11 +14,12 @@ E_coh = np.zeros(10)
 
 db = connect('Al-clusters-initial.db')
 db_rel = connect('Al-clusters-relaxed.db')
+mishin = EAM(potential='HA5_al_potential.alloy')
 for i in range (1,11):
     
     atoms = db[i].toatoms()
 
-    mishin = EAM(potential='HA5_al_potential.alloy')
+    
     #mishin.write_potential('new.eam.alloy')
     
     #plt.figure(figsize=(8,8))
@@ -32,7 +33,7 @@ for i in range (1,11):
     Cohesive_energy=atoms.get_potential_energy()
     atoms.get_forces()
 
-    db_rel[i].write
+    
     size=atoms.get_number_of_atoms()
     print('Size:',size)
     sizes[i-1] = size
@@ -41,6 +42,8 @@ for i in range (1,11):
     mean_lattice_param = np.mean([np.min(atoms.get_all_distances()[i,:][atoms.get_all_distances()[i,:]!=0]) for i in range(1,11)])
     # Lattice_param=np.mean(np.min(atoms.get_all_distances()[atoms.get_all_distances()!=0],axis=0))*np.sqrt(2)
     print('"Lattice param": ', mean_lattice_param*np.sqrt(2))
+    db_rel[i].write(atoms,data={'Cohesive-energy': Cohesive_energy/size, 'Lattice-param':mean_lattice_param*np.sqrt(2)})
+
 plt.figure(figsize=(8,6))
 
 plt.scatter(sizes,E_coh)
@@ -87,5 +90,8 @@ for i in range (1,11):
     dos=np.loadtxt('dos.txt')
 
     db[i].write(atoms, data = {'frequency' : freq , 'density -of -states' : dos})
+
+# %%
+1+1
 
 # %%

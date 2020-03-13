@@ -13,7 +13,7 @@ db = connect('../Task3/Al-clusters-initial.db')
 new_db=connect('../Task3/Vibrations.db')
 
 mishin = EAM(potential='../Task3/HA5_al_potential.alloy')
-for i in range (1,11):
+for i in range(1,11):
     
     atoms = db[i].toatoms()
     atoms.set_calculator(mishin)

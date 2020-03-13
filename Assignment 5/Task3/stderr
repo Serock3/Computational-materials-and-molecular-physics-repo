@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+    runpy.run_path(gpaw_args.script, run_name='__main__')
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "Task1.py", line 23, in <module>
+    vibs.run()
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/vibrations/vibrations.py", line 131, in run
+    'to have only one sort of data structure at a time.')
+RuntimeError: Cannot run calculation. vib1.all.pckl must be removed or split in order to have only one sort of data structure at a time.

@@ -36,6 +36,9 @@ calc.write('al_bulk.gpw')
 #%%
 from ase.dft.dos import DOS
 from gpaw import restart
+# from ase.calculators.test import FreeElectrons
+
+
 atoms, calc = restart('al_bulk.gpw')
 
 # calc = GPAW('groundstate.gpw')
@@ -46,9 +49,21 @@ atoms.set_calculator(calc)
 dos = DOS(calc, npts=500, width=0)
 energies = dos.get_energies()
 weights = dos.get_dos()
-plt.plot(energies, weights)
+plt.figure(figsize=(8,6))
+plt.plot(energies, weights,label='Al bulk')
+
+m_e=5.110e5     #eV/c^2
+hbar=6.582e-16  #eVs
+c_0=3e18        #Å/s
+k_bT=25e-3      #eV
+
+freeDOS=atoms.get_volume()/(2*np.pi**2)*(2*m_e/hbar**2/c_0**2)**(3/2)*np.sqrt(energies-energies[0])
+fermi_dirac=1/(np.exp((energies-calc.get_fermi_level())/k_bT)+1)
+plt.plot(energies,freeDOS*fermi_dirac,'--',label='Free electron gas')
+plt.legend()
 plt.show()
 
+n=(calc.get_fermi_level()*2*m_e/c_0**2/hbar**2)**(3/2)/(3*np.pi**2)
 
 
 # %%
